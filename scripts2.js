@@ -23,6 +23,31 @@ if (addItemBtn && itemsContainer) {
   });
 }
 
+// Generate unique invoice ID in format INV-YYYYMMDD-0001
+function generateInvoiceID() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const datePart = `${yyyy}${mm}${dd}`;
+
+  // Retrieve last count from localStorage
+  const lastDate = localStorage.getItem('lastInvoiceDate');
+  let count = Number(localStorage.getItem('dailyInvoiceCount')) || 0;
+
+  if (lastDate !== datePart) {
+    count = 1; // reset count if new day
+  } else {
+    count += 1;
+  }
+
+  localStorage.setItem('lastInvoiceDate', datePart);
+  localStorage.setItem('dailyInvoiceCount', count);
+
+  const countPart = String(count).padStart(4, '0');
+  return `INV-${datePart}-${countPart}`;
+}
+
 // Handle form submit (with barcode)
 const invoiceForm = document.getElementById('invoiceForm');
 if (invoiceForm && overlay) {
@@ -31,7 +56,7 @@ if (invoiceForm && overlay) {
 
     // ─── BARCODE GENERATION ──────────────────────────────────────────────────────
     // 1) Unique ID for this invoice
-    const invoiceId = Date.now();  
+    const invoiceId = generateInvoiceID();
     // 2) Barcode image URL (Code 128)
     const barcodeUrl = `https://barcodeapi.org/api/128/${invoiceId}`;
     // 3) Create <img> and insert above datesSection
@@ -46,6 +71,10 @@ if (invoiceForm && overlay) {
       datesSectionContainer.parentNode.insertBefore(barcodeImg, datesSectionContainer);
     }
     // ─────────────────────────────────────────────────────────────────────────────
+
+    // Display invoice ID if you have a slot for it
+    const invoiceIdSlot = document.getElementById('invoice-id');
+    if (invoiceIdSlot) invoiceIdSlot.textContent = invoiceId;
 
     // Header logo (if you ever add a logo URL input)
     const logoSlot = document.getElementById('logoSlot');
