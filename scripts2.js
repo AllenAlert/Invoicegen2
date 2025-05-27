@@ -23,13 +23,31 @@ if (addItemBtn && itemsContainer) {
   });
 }
 
-// Handle form submit
+// Handle form submit (with barcode)
 const invoiceForm = document.getElementById('invoiceForm');
 if (invoiceForm && overlay) {
   invoiceForm.addEventListener('submit', e => {
     e.preventDefault();
 
-    // Header logo
+    // ─── BARCODE GENERATION ──────────────────────────────────────────────────────
+    // 1) Unique ID for this invoice
+    const invoiceId = Date.now();  
+    // 2) Barcode image URL (Code 128)
+    const barcodeUrl = `https://barcodeapi.org/api/128/${invoiceId}`;
+    // 3) Create <img> and insert above datesSection
+    const barcodeImg = document.createElement('img');
+    barcodeImg.src = barcodeUrl;
+    barcodeImg.alt = `Invoice #${invoiceId}`;
+    barcodeImg.style.maxWidth = '180px';
+    barcodeImg.style.marginBottom = '10px';
+
+    const datesSectionContainer = document.getElementById('datesSection');
+    if (datesSectionContainer && datesSectionContainer.parentNode) {
+      datesSectionContainer.parentNode.insertBefore(barcodeImg, datesSectionContainer);
+    }
+    // ─────────────────────────────────────────────────────────────────────────────
+
+    // Header logo (if you ever add a logo URL input)
     const logoSlot = document.getElementById('logoSlot');
     const logoUrl = document.getElementById('logoUrl');
     if (logoSlot && logoUrl) logoSlot.src = logoUrl.value;
@@ -53,7 +71,7 @@ if (invoiceForm && overlay) {
         `<p><strong>BILLING TO</strong><br>${clientName.value}<br>${clientAddress.value}</p>`;
     }
 
-    // Items
+    // Items table
     const descs = document.querySelectorAll('.desc');
     const prices = document.querySelectorAll('.price');
     const qtys   = document.querySelectorAll('.qty');
@@ -69,9 +87,9 @@ if (invoiceForm && overlay) {
     const itemsTable = document.getElementById('itemsTable');
     if (itemsTable) itemsTable.innerHTML = tbl;
 
-    // Summary
+    // Summary calculations
     const discount = document.getElementById('discount');
-    const taxInput = document.getElementById('tax'); // Get the tax input
+    const taxInput = document.getElementById('tax');
     const summarySection = document.getElementById('summarySection');
     const disc = parseFloat(discount?.value) || 0;
     const taxPercent = parseFloat(taxInput?.value) || 0;
