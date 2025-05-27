@@ -1,0 +1,91 @@
+// Show form on load
+const overlay = document.getElementById('formOverlay');
+if (overlay) overlay.style.display = 'flex';
+
+// Cancel button
+const cancelBtn = document.getElementById('cancelBtn');
+if (cancelBtn && overlay) {
+  cancelBtn.onclick = () => overlay.style.display = 'none';
+}
+
+// Add more items
+const addItemBtn = document.getElementById('addItem');
+const itemsContainer = document.getElementById('itemsContainer');
+if (addItemBtn && itemsContainer) {
+  addItemBtn.addEventListener('click', () => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML =
+      '<input type="text" class="desc" placeholder="Description" required/>' +
+      '<input type="number" class="price" placeholder="Price" required/>' +
+      '<input type="number" class="qty" placeholder="Qty" required/>';
+    itemsContainer.appendChild(row);
+  });
+}
+
+// Handle form submit
+const invoiceForm = document.getElementById('invoiceForm');
+if (invoiceForm && overlay) {
+  invoiceForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    // Header logo
+    const logoSlot = document.getElementById('logoSlot');
+    const logoUrl = document.getElementById('logoUrl');
+    if (logoSlot && logoUrl) logoSlot.src = logoUrl.value;
+
+    // Dates
+    const invoiceDate = document.getElementById('invoiceDate');
+    const dueDate = document.getElementById('dueDate');
+    const datesSection = document.getElementById('datesSection');
+    if (invoiceDate && dueDate && datesSection) {
+      datesSection.innerHTML =
+        `<p><strong>Invoice Date:</strong> ${invoiceDate.value}</p>` +
+        `<p><strong>Invoice Due Date:</strong> ${dueDate.value}</p>`;
+    }
+
+    // Billing
+    const clientName = document.getElementById('clientName');
+    const clientAddress = document.getElementById('clientAddress');
+    const billingSection = document.getElementById('billingSection');
+    if (clientName && clientAddress && billingSection) {
+      billingSection.innerHTML =
+        `<p><strong>BILLING TO</strong><br>${clientName.value}<br>${clientAddress.value}</p>`;
+    }
+
+    // Items
+    const descs = document.querySelectorAll('.desc');
+    const prices = document.querySelectorAll('.price');
+    const qtys   = document.querySelectorAll('.qty');
+    let tbl = '<tr><th>Description</th><th>Price</th><th>Qty</th><th>Total</th></tr>';
+    let total = 0;
+    descs.forEach((d,i) => {
+      const p = parseFloat(prices[i]?.value || 0);
+      const q = parseInt(qtys[i]?.value || 0);
+      const t = p * q;
+      total += t;
+      tbl += `<tr><td>${d.value}</td><td>₦${p}</td><td>${q}</td><td>₦${t}</td></tr>`;
+    });
+    const itemsTable = document.getElementById('itemsTable');
+    if (itemsTable) itemsTable.innerHTML = tbl;
+
+    // Summary
+    const discount = document.getElementById('discount');
+    const taxInput = document.getElementById('tax'); // Get the tax input
+    const summarySection = document.getElementById('summarySection');
+    const disc = parseFloat(discount?.value) || 0;
+    const taxPercent = parseFloat(taxInput?.value) || 0;
+    const taxAmount = ((total - disc) * taxPercent) / 100;
+    const grand = total - disc + taxAmount;
+    if (summarySection) {
+      summarySection.innerHTML =
+        `<tr><td><strong>Total</strong></td><td>₦${total.toFixed(2)}</td></tr>` +
+        `<tr><td><strong>Discount</strong></td><td>₦${disc.toFixed(2)}</td></tr>` +
+        `<tr><td><strong>Tax (${taxPercent}%)</strong></td><td>₦${taxAmount.toFixed(2)}</td></tr>` +
+        `<tr><td class="grand-total"><strong>Grand Total</strong></td><td class="grand-total">₦${grand.toFixed(2)}</td></tr>`;
+    }
+
+    // Hide form
+    overlay.style.display = 'none';
+  });
+}

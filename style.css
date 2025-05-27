@@ -1,0 +1,158 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f8f8f8; }
+.invoice-wrapper {
+  max-width: 100%;
+  margin: 0 auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.invoice-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px;
+}
+.invoice-header h1 {
+  font-size: 56px; /* Increased from 48px */
+  letter-spacing: 2px;
+}
+.invoice-header img {
+  width: 200px;
+}
+/* Main */
+.invoice-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.invoice-dates p, .billing-to p {
+  font-size: 16px; margin-bottom: 5px;
+}
+.center-image {
+  width: 100%; max-height: 300px; object-fit: cover; margin: 20px 0;
+}
+.items-table {
+  width: 100%; border-collapse: collapse; margin-bottom: 20px;
+}
+.items-table th, .items-table td {
+  padding: 12px; border-bottom: 1px solid #ddd; text-align: left; text-align: left;
+  font-size: 18px;
+}
+.items-table th { font-weight: bold; font-size: 20px; }
+/* Separator line above summary/total */
+.summary-separator {
+  border-top: 2px solid #ddd;
+  margin: 30px 0 20px 0;
+}
+.summary {
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+  margin-bottom: 40px;
+  align-items: center; /* Ensures vertical alignment */
+}
+.summary p {
+  font-size: 18px;
+  margin: 0 20px 0 0; /* Add spacing between summary items */
+  min-width: 160px;    /* Ensures columns are aligned */
+  text-align: right;
+}
+.summary .grand-total {
+  font-weight: bold;
+  color: #e00;
+}
+/* Footer */
+.invoice-footer {
+  background: #111; color: #fff;
+  display: flex; justify-content: space-between; padding: 20px;
+  border-top: 2px solid #000;
+  font-size: 12px;
+}
+.invoice-footer h4 { margin-bottom: 10px; }
+/* Form Overlay */
+.form-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6); display: flex;
+  justify-content: center; align-items: center;
+}
+.form-container {
+  background: #fff; padding: 30px; width: 600px;
+  max-height: 90vh; overflow-y: auto;
+}
+.form-container label { display: block; margin-top: 15px; font-weight: bold; }
+.form-container input { width: 100%; padding: 8px; margin-top: 5px; }
+.item-row { display: flex; gap: 10px; margin-top: 10px; }
+.item-row input { flex: 1; }
+#addItem { margin: 10px 0; background: #000; color: #fff; padding: 8px; border: none; cursor: pointer; }
+.form-buttons { margin-top: 20px; text-align: right; }
+.form-buttons button {
+  padding: 8px 12px; margin-left: 10px; border: none; cursor: pointer;
+}
+.summary-account-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-top: auto; /* Pushes this section to the bottom of .invoice-main */
+  margin-bottom: 24px; /* Space above the footer */
+}
+
+.account-details {
+  width: 340px;           /* Increased width */
+  background: #fafafa;
+  /* border: 1px solid #eee; */ /* Removed border */
+  padding: 22px;          /* Increased padding */
+  font-size: 17px;        /* Increased font size */
+  border-radius: 6px;
+  margin: 30px 0; /* Space between account details and other sections */
+  
+}
+
+.summary-table {
+  width: 300px;
+  border-collapse: collapse;
+  margin: 0;
+}
+.summary-table td {
+  font-size: 18px;
+  padding: 8px 0;
+  text-align: right;
+}
+.summary-table .grand-total {
+  font-weight: bold;
+  color: #e00;
+}
+.top-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.invoice-dates {
+  flex: 1;
+}
+
+.billing-to {
+  flex: 1;
+  text-align: right;
+  margin-top: -12px; /* Moves the billing section up */
+}
+@media print {
+  body, .invoice-wrapper, .invoice-footer {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .invoice-footer {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #111 !important;
+    color: #fff !important;
+    border-top: 2px solid #000 !important;
+  }
+  .invoice-footer h4, .invoice-footer p {
+    color: #fff !important;
+    background: transparent !important;
+  }
+}

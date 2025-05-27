@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Invoice Generator</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="invoice-wrapper">
+    <!-- HEADER -->
+    <header class="invoice-header">
+      <h1>INVOICE</h1>
+      <img id="logoSlot" src="logo.png" alt="Logo"/>
+    </header>
+
+    <!-- MAIN -->
+    <main class="invoice-main">
+  <div class="top-info-row">
+    <div class="invoice-dates" id="datesSection"></div>
+    <div class="billing-to" id="billingSection"></div>
+  </div>
+      <img src="alexander-dummer-as4duj2j7r4-unsplash.jpg" alt="Studio" class="center-image" />
+      <table class="items-table" id="itemsTable"></table>
+      <div class="summary-separator"></div>
+      <div class="summary-account-row">
+  <section class="account-details">
+    <h4>ACCOUNT DETAILS</h4>
+    <p>Account Name: Adesanya Victor</p>
+    <p>Account Number: 2313419742</p>
+    <p>Bank: United Bank Of Africa</p>
+  </section>
+  <table class="summary-table">
+    <tbody id="summarySection">
+      <!-- Totals will be injected here by JS as table rows -->
+    </tbody>
+  </table>
+</div>
+    </main>
+
+    <!-- ACCOUNT DETAILS -->
+   <!--  <section class="account-details">
+      <h4>ACCOUNT DETAILS</h4>
+      <p>Account Name: Lighthouse Studios</p>
+      <p>Account Number: 1234567890</p>
+      <p>Bank: Example Bank</p>
+    </section>
+ -->
+    <!-- FOOTER -->
+    <footer class="invoice-footer">
+      <div>
+        <h4>TERMS & CONDITIONS</h4>
+        <p>Please ensure payment is made within designated period.</p>
+      </div>
+      <div>
+        <h4>OUR CONTACT</h4>
+        <p>lythouse3@gmail.com<br/>Ajayi Crowther University, Oyo.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- OVERLAY FORM -->
+  <div class="form-overlay" id="formOverlay">
+    <div class="form-container">
+      <h2>Enter Invoice Details</h2>
+      <form id="invoiceForm">
+        <label>Invoice Date</label>
+        <input type="date" id="invoiceDate" required/>
+
+        <label>Due Date</label>
+        <input type="date" id="dueDate" required/>
+
+        <label>Billing To</label>
+        <input type="text" id="clientName" placeholder="Name" required/>
+        <input type="text" id="clientAddress" placeholder="Address" required/>
+
+        <h3>Items</h3>
+        <div id="itemsContainer">
+          <div class="item-row">
+            <input type="text" class="desc" placeholder="Description" required/>
+            <input type="number" class="price" placeholder="Price" required/>
+            <input type="number" class="qty" placeholder="Qty" required/>
+          </div>
+        </div>
+        <button type="button" id="addItem">+ Add Item</button>
+
+        <label>Discount (₦)</label>
+        <input type="number" id="discount" value="0"/>
+
+        <label for="tax">Tax (%)</label>
+        <input type="number" id="tax" placeholder="Tax percentage" min="0" max="100" step="0.01" />
+
+        <div class="form-buttons">
+          <button type="button" id="cancelBtn">Cancel</button>
+          <button type="submit">Generate</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="scripts2.js"></script>
+</body>
+</html>
